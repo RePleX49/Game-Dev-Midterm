@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
     // Target is the camera boom
     [SerializeField] Transform Target, Player;
     [SerializeField] float TurnSpeed = 1;
+    [SerializeField] float LerpTime = 0.5f;
     float MouseX;
     float MouseY;
 
@@ -28,3 +29,11 @@ public class CameraController : MonoBehaviour
         Target.rotation = Quaternion.Euler(MouseY, MouseX, 0);
         Player.rotation = Quaternion.Euler(0, MouseX, 0);
     }
+
+    IEnumerator CameraLerp()
+    {
+        Quaternion NewRotation = Quaternion.Euler(MouseY, MouseX, 0);
+        Target.rotation = Quaternion.Lerp(Target.rotation, NewRotation, LerpTime);
+        yield return null;
+    }
+}
