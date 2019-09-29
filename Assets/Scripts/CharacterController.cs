@@ -7,8 +7,12 @@ public class CharacterController : MonoBehaviour
     Rigidbody rb;
     Vector3 NewPos;
 
-    float MoveHorizontal;
-    float MoveVertical;
+    float InputHorizontal;
+    float InputVertical;
+
+    Vector3 MoveHorizontal;
+    Vector3 MoveVertical;
+    Vector3 FinalMoveVector;
 
     public float MoveSpeed;
 
@@ -22,16 +26,15 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveHorizontal = Input.GetAxis("Horizontal");
-        MoveHorizontal *= MoveSpeed * Time.deltaTime;
+        InputHorizontal = Input.GetAxis("Horizontal");
+        MoveHorizontal = transform.right * (InputHorizontal);
 
-        MoveVertical = Input.GetAxis("Vertical");
-        MoveVertical *= MoveSpeed * Time.deltaTime;
+        InputVertical = Input.GetAxis("Vertical");
+        MoveVertical = transform.forward * (InputVertical);
     }
 
     void FixedUpdate()
     {
-        rb.position += (transform.forward * MoveVertical);
-        rb.position += (transform.right * MoveHorizontal);
+        rb.position += (Vector3.ClampMagnitude(MoveHorizontal + MoveVertical, 1.0f) * MoveSpeed * Time.deltaTime);
     }
 }
