@@ -20,12 +20,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_A887EE32:
+        m_Texture: {fileID: 2800000, guid: dc63ecd845ad17e4594bb4bdc34ab79c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_EC53C491:
         m_Texture: {fileID: 2800000, guid: 59c8de363dc14c54986d0751c2c38342, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_C537A4D_Texture_1:
+        m_Texture: {fileID: 2800000, guid: b3a77ed35c4f069478ce6106e9fee185, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_39164F48: 0.06
+    - Vector1_39164F48: 0.03
     - Vector1_F4BD3B0C: 75
     m_Colors:
-    - Color_32DC2D80: {r: 1, g: 0.0179291, b: 0, a: 0}
+    - Color_32DC2D80: {r: 0.6320754, g: 0, b: 0.16489252, a: 0}
