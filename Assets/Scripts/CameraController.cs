@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform Target, Player;
     [SerializeField] float TurnSpeed = 1;
     [SerializeField] float CameraLagSpeed = 0.5f;
+    [SerializeField] float SphereCastDistance = 50.0f;
     float MouseX;
     float MouseY;
 
@@ -17,11 +18,23 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         Vector3 TargetPosition = Player.position;
         Vector3 SmoothedPosition = Vector3.Lerp(Target.position, TargetPosition, CameraLagSpeed * Time.deltaTime);
         Target.position = SmoothedPosition;
+
+        //if (Input.GetKey(KeyCode.Mouse1))
+        //{
+        //    RaycastHit Hit;
+        //    Physics.SphereCast(transform.position, 20, transform.forward, out Hit, SphereCastDistance);
+
+        //    if (Hit.transform.gameObject != null)
+        //    {
+        //        Debug.Log("Sphere Cast Hit");
+        //        Debug.DrawLine(transform.position, Hit.transform.position, Color.green);
+        //    }
+        //}
     }
 
     // Update is called once per frame
