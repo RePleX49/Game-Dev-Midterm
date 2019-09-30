@@ -5,6 +5,7 @@ using UnityEngine;
 public class DissolveScript : MonoBehaviour
 {
     Material material;
+    BoxCollider BoxComponent;
 
     public float DissolveTime = 1;
     float SliderVal = 0;
@@ -14,6 +15,7 @@ public class DissolveScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BoxComponent = GetComponent<BoxCollider>();
         material = GetComponent<MeshRenderer>().material;
         if(material)
         {
@@ -21,21 +23,15 @@ public class DissolveScript : MonoBehaviour
         }    
     }
 
-    // Update is called once per frame
-    void Update()
+    public void FlipFlopEffect()
     {
-        if(Input.GetKey(KeyCode.F))
+        if (FlipFlop)
         {
-            if(FlipFlop)
-            {
-                StartCoroutine(Resolve());
-                
-            }
-            else
-            {
-                StartCoroutine(Dissolve());
-                
-            }
+            StartCoroutine(Resolve());
+        }
+        else
+        {
+            StartCoroutine(Dissolve());
         }
     }
 
@@ -53,6 +49,8 @@ public class DissolveScript : MonoBehaviour
 
                 yield return null;
             }
+            BoxComponent.enabled = false;
+
             yield return new WaitForSeconds(0.5f);
             IsChanging = false;
         }
@@ -76,6 +74,8 @@ public class DissolveScript : MonoBehaviour
 
                 yield return null;
             }
+            BoxComponent.enabled = true;
+
             yield return new WaitForSeconds(0.5f);
             IsChanging = false;
         }

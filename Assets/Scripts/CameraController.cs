@@ -8,33 +8,60 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform Target, Player;
     [SerializeField] float TurnSpeed = 1;
     [SerializeField] float CameraLagSpeed = 0.5f;
-    [SerializeField] float SphereCastDistance = 50.0f;
+    [SerializeField] float SphereCastDistance = 75.0f;
+    [SerializeField] float CameraVertMin = -30;
+    [SerializeField] float CameraVertMax = 60;
+    [SerializeField] float ZoomedFOV;
+    float DefaultFOV;
+
     float MouseX;
     float MouseY;
 
+    RaycastHit Hit;
+    DissolveScript DScript;
+
+    [SerializeField] Vector3 Offset;
+
     void Start()
     {
+        DefaultFOV = Camera.main.fieldOfView;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void FixedUpdate()
+    private void Update()
     {
-        Vector3 TargetPosition = Player.position;
-        Vector3 SmoothedPosition = Vector3.Lerp(Target.position, TargetPosition, CameraLagSpeed * Time.deltaTime);
-        Target.position = SmoothedPosition;
-
         if (Input.GetKey(KeyCode.Mouse1))
         {
-            RaycastHit Hit;
-            Physics.SphereCast(transform.position, 20, transform.forward, out Hit, SphereCastDistance);
+            Camera.main.fieldOfView = ZoomedFOV;
+
+            Physics.SphereCast(Player.position, 1, transform.forward, out Hit, SphereCastDistance);
 
             if (Hit.transform.gameObject != null)
-            {
-                Debug.Log("Sphere Cast Hit");
-                Debug.DrawLine(transform.position, Hit.transform.position, Color.green, 5.0f);
+            {           
+                //Debug.DrawLine(Player.position, transform.forward * SphereCastDistance, Color.green, 5.0f);
+                DScript = Hit.transform.GetComponent<DissolveScript>();
             }
         }
+        else
+        {
+            Camera.main.fieldOfView = DefaultFOV;
+        }
+
+        if(Input.GetKey(KeyCode.Mouse0))
+        {
+            if (DScript != null)
+            {
+                DScript.FlipFlopEffect();
+            }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        Vector3 TargetPosition = Player.position + Offset;
+        Vector3 SmoothedPosition = Vector3.Lerp(Target.position, TargetPosition, CameraLagSpeed * Time.deltaTime);
+        Target.position = SmoothedPosition;       
     }
 
     // Update is called once per frame
@@ -42,7 +69,7 @@ public class CameraController : MonoBehaviour
     {
         MouseX += Input.GetAxis("Mouse X") * TurnSpeed;
         MouseY -= Input.GetAxis("Mouse Y") * TurnSpeed;
-        MouseY = Mathf.Clamp(MouseY, -30, 45);
+        MouseY = Mathf.Clamp(MouseY, CameraVertMin, CameraVertMax);
 
         transform.LookAt(Target);
 
