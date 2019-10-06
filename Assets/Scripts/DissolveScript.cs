@@ -5,17 +5,17 @@ using UnityEngine;
 public class DissolveScript : MonoBehaviour
 {
     Material material;
-    BoxCollider BoxComponent;
+    Collider BoxComponent;
 
     public float DissolveTime = 1;
-    float SliderVal = 0;
+    float SliderVal = 1;
     bool FlipFlop = false;
     bool IsChanging = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        BoxComponent = GetComponent<BoxCollider>();
+        BoxComponent = GetComponent<Collider>();
         material = GetComponent<MeshRenderer>().material;
         if(material)
         {
@@ -27,11 +27,11 @@ public class DissolveScript : MonoBehaviour
     {
         if (FlipFlop)
         {
-            StartCoroutine(Resolve());
+            StartCoroutine(Dissolve());
         }
         else
         {
-            StartCoroutine(Dissolve());
+            StartCoroutine(Resolve());
         }
     }
 
@@ -39,7 +39,7 @@ public class DissolveScript : MonoBehaviour
     {    
         if(!IsChanging)
         {
-            FlipFlop = true;
+            FlipFlop = false;
             IsChanging = true;
             while (SliderVal < 1)
             {
@@ -64,7 +64,7 @@ public class DissolveScript : MonoBehaviour
     {
         if (!IsChanging)
         {
-            FlipFlop = false;
+            FlipFlop = true;
             IsChanging = true;
             while (SliderVal > 0)
             {

@@ -6,12 +6,12 @@ public class CameraController : MonoBehaviour
 {
     // Target is the camera boom
     [SerializeField] Transform Target, Player;
-    [SerializeField] float TurnSpeed = 1;
-    [SerializeField] float CameraLagSpeed = 0.5f;
+    [SerializeField] float TurnSpeed = 1.0f;
+    [SerializeField] float CameraLagSpeed = 12.0f;
     [SerializeField] float SphereCastDistance = 75.0f;
-    [SerializeField] float CameraVertMin = -30;
-    [SerializeField] float CameraVertMax = 60;
-    [SerializeField] float ZoomedFOV;
+    [SerializeField] float CameraVertMin = -30.0f;
+    [SerializeField] float CameraVertMax = 48.0f;
+    [SerializeField] float ZoomedFOV = 45.0f;
     float DefaultFOV;
 
     float MouseX;
@@ -39,7 +39,7 @@ public class CameraController : MonoBehaviour
 
             if (Hit.transform.gameObject != null)
             {           
-                //Debug.DrawLine(Player.position, transform.forward * SphereCastDistance, Color.green, 5.0f);
+                Debug.DrawLine(Player.position, transform.forward * SphereCastDistance, Color.green, 5.0f);
                 DScript = Hit.transform.GetComponent<DissolveScript>();
             }
         }
