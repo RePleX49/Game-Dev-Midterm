@@ -48,7 +48,7 @@ public class MovementController : MonoBehaviour
             NewPos.y = -gravity * Time.deltaTime;
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                NewPos.y = JumpSpeed;
+                NewPos.y = Mathf.Lerp(NewPos.y, JumpSpeed, JumpSpeed * Time.deltaTime);
             }
         }
         else

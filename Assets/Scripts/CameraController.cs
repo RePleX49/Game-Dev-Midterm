@@ -8,14 +8,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform Target, Player;
     [SerializeField] float TurnSpeed = 1.0f;
     [SerializeField] float CameraLagSpeed = 12.0f;
-    [SerializeField] float SphereCastDistance = 75.0f;
+    [SerializeField] float SphereCastDistance = 100.0f;
     [SerializeField] float CameraVertMin = -30.0f;
     [SerializeField] float CameraVertMax = 48.0f;
     [SerializeField] float ZoomedFOV = 45.0f;
+    [SerializeField] float ZoomDuration = 12.75f;
     float DefaultFOV;
 
     float MouseX;
     float MouseY;
+
+    float currentHitDistance;
 
     RaycastHit Hit;
     DissolveScript DScript;
@@ -33,28 +36,44 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Mouse1))
         {
-            Camera.main.fieldOfView = ZoomedFOV;
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, ZoomedFOV, ZoomDuration * Time.deltaTime);
 
-            Physics.SphereCast(Player.position, 1, transform.forward, out Hit, SphereCastDistance);
-
-            if (Hit.transform.gameObject != null)
-            {           
-                Debug.DrawLine(Player.position, transform.forward * SphereCastDistance, Color.green, 5.0f);
+            if(Physics.Raycast(Player.position, transform.forward, out Hit, SphereCastDistance))
+            {
+                currentHitDistance = Hit.distance;
                 DScript = Hit.transform.GetComponent<DissolveScript>();
+            }
+            else
+            {
+                currentHitDistance = SphereCastDistance;
+                if(DScript)
+                {
+                    DScript = null;
+                }            
             }
         }
         else
         {
-            Camera.main.fieldOfView = DefaultFOV;
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, DefaultFOV, ZoomDuration * Time.deltaTime);
+            if (DScript)
+            {
+                DScript = null;
+            }
         }
 
         if(Input.GetKey(KeyCode.Mouse0))
         {
-            if (DScript != null)
+            if (DScript)
             {
                 DScript.FlipFlopEffect();
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Debug.DrawLine(Player.position, Player.position + (transform.forward * currentHitDistance));
+        Gizmos.DrawWireSphere(Player.position + (transform.forward * currentHitDistance), 0.5f);
     }
 
     void FixedUpdate()
