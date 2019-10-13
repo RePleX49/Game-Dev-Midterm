@@ -42,16 +42,12 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        
-
         RaycastHit Hit;
-        // Physics.Raycast(PlayerBottom.transform.position, Vector3.down, out Hit);
 
         if (Physics.Raycast(PlayerBottom.transform.position, Vector3.down, out Hit))
         {
             if (Hit.distance < 0.08f)
             {
-                rb.isKinematic = true;
                 IsGrounded = true;
             }
             else
@@ -60,18 +56,17 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //if (!IsGrounded)
-        //{
-        //    MoveSpeedModifier = 0.65f;
-        //}
-        //else
-        //{
-        //    MoveSpeedModifier = 1;
-        //}
+        if (!IsGrounded)
+        {
+            MoveSpeedModifier = 0.65f;
+        }
+        else
+        {
+            MoveSpeedModifier = 1;
+        }
 
         if (Input.GetKey(KeyCode.Space) && IsGrounded)
         {
-            rb.isKinematic = false;
             rb.AddForce((Vector3.up * JumpForce), ForceMode.Impulse);
         }
     }

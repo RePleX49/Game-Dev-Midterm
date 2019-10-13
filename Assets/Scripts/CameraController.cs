@@ -13,17 +13,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] float CameraVertMax = 48.0f;
     [SerializeField] float ZoomedFOV = 45.0f;
     [SerializeField] float ZoomDuration = 12.75f;
-    float DefaultFOV;
+    [SerializeField] Vector3 Offset;
 
+    float DefaultFOV;
     float MouseX;
     float MouseY;
 
+    // Used for debug purposes
     float currentHitDistance;
 
     RaycastHit Hit;
     DissolveScript DScript;
-
-    [SerializeField] Vector3 Offset;
 
     void Start()
     {
