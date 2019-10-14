@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform Target, Player;
     [SerializeField] float TurnSpeed = 1.0f;
     [SerializeField] float CameraLagSpeed = 12.0f;
-    [SerializeField] float SphereCastDistance = 100.0f;
+    [SerializeField] float RayCastDistance = 50.0f;
     [SerializeField] float CameraVertMin = -30.0f;
     [SerializeField] float CameraVertMax = 48.0f;
     [SerializeField] float ZoomedFOV = 45.0f;
@@ -38,14 +38,14 @@ public class CameraController : MonoBehaviour
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, ZoomedFOV, ZoomDuration * Time.deltaTime);
 
-            if(Physics.Raycast(Player.position, transform.forward, out Hit, SphereCastDistance))
+            if(Physics.Raycast(transform.position, transform.forward, out Hit, RayCastDistance))
             {
                 currentHitDistance = Hit.distance;
                 DScript = Hit.transform.GetComponent<DissolveScript>();
             }
             else
             {
-                currentHitDistance = SphereCastDistance;
+                currentHitDistance = RayCastDistance;
                 if(DScript)
                 {
                     DScript = null;

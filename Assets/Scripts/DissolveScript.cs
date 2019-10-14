@@ -11,21 +11,25 @@ public class DissolveScript : MonoBehaviour
     float SliderVal = 1;
     bool FlipFlop = false;
     bool IsChanging = false;
+    bool IsDissolved = true;
+    [SerializeField] bool StartDissolved = true;
+    [SerializeField] bool PlayerCanAffect = true;
 
     // Start is called before the first frame update
     void Start()
     {
         BoxComponent = GetComponent<Collider>();
         material = GetComponent<MeshRenderer>().material;
-        if(material)
+        
+        if(!StartDissolved)
         {
-            Debug.Log(material);
-        }    
+            StartCoroutine(Resolve());
+        }
     }
 
     public void FlipFlopEffect()
     {
-        if (FlipFlop)
+        if (!IsDissolved && PlayerCanAffect)
         {
             StartCoroutine(Dissolve());
         }
@@ -35,11 +39,11 @@ public class DissolveScript : MonoBehaviour
         }
     }
 
-    IEnumerator Dissolve()
+    public IEnumerator Dissolve()
     {    
         if(!IsChanging)
         {
-            FlipFlop = false;
+            IsDissolved = true;
             IsChanging = true;
             BoxComponent.enabled = false;
             while (SliderVal < 1)
@@ -64,7 +68,7 @@ public class DissolveScript : MonoBehaviour
     {
         if (!IsChanging)
         {
-            FlipFlop = true;
+            IsDissolved = false;
             IsChanging = true;
             BoxComponent.enabled = true;
             while (SliderVal > 0)
