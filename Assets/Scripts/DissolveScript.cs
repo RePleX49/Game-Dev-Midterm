@@ -50,7 +50,7 @@ public class DissolveScript : MonoBehaviour
             {
                 SliderVal = Mathf.Lerp(SliderVal, 1.1f, DissolveTime * Time.deltaTime);
                 material.SetFloat("Vector1_F2200C18", SliderVal);
-                Debug.Log(SliderVal);
+                //Debug.Log(SliderVal);
 
                 yield return null;
             }            
@@ -75,7 +75,7 @@ public class DissolveScript : MonoBehaviour
             {
                 SliderVal = Mathf.Lerp(SliderVal, -0.1f, DissolveTime * Time.deltaTime);
                 material.SetFloat("Vector1_F2200C18", SliderVal);
-                Debug.Log(SliderVal);
+                //Debug.Log(SliderVal);
 
                 yield return null;
             }           

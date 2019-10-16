@@ -7,17 +7,24 @@ public class CheckPointSystem : MonoBehaviour
     [SerializeField] GameObject Player;
     Vector3 CurrentCheckpoint;
 
-    // Start is called before the first frame update
-    void Start()
+    public void SetCheckpoint(Vector3 CheckPointPos)
     {
-        
+        CurrentCheckpoint = CheckPointPos;
+        Debug.Log("CheckPoint Set");
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == Player)
         {
+            Player.GetComponent<MovementController>().SettingCheckpoint = true;
             Player.transform.position = CurrentCheckpoint;
+            Invoke("ResetCheckpointBool", 0.35f);
         } 
+    }
+
+    private void ResetCheckpointBool()
+    {
+        Player.GetComponent<MovementController>().SettingCheckpoint = false;
     }
 }

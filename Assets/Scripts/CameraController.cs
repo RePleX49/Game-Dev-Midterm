@@ -14,6 +14,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] float ZoomedFOV = 45.0f;
     [SerializeField] float ZoomDuration = 12.75f;
     [SerializeField] Vector3 Offset;
+    [SerializeField] GameObject AimFX;
+    GameObject FX;
 
     float DefaultFOV;
     float MouseX;
@@ -33,9 +35,14 @@ public class CameraController : MonoBehaviour
     }
 
     private void Update()
-    {
+    {      
         if (Input.GetKey(KeyCode.Mouse1))
-        {
+        {          
+            if(FX == null)
+            {
+                FX = Instantiate(AimFX);
+            }          
+
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, ZoomedFOV, ZoomDuration * Time.deltaTime);
 
             if(Physics.Raycast(transform.position, transform.forward, out Hit, RayCastDistance))
@@ -51,6 +58,13 @@ public class CameraController : MonoBehaviour
                     DScript = null;
                 }            
             }
+
+            if(FX == null)
+            {
+                FX = Instantiate(AimFX);
+            }
+
+            FX.transform.position = transform.position + (transform.forward * currentHitDistance);         
         }
         else
         {
@@ -59,6 +73,8 @@ public class CameraController : MonoBehaviour
             {
                 DScript = null;
             }
+
+            Destroy(FX);
         }
 
         if(Input.GetKey(KeyCode.Mouse0))

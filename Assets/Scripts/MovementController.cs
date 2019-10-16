@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
-    CharacterController cc;
+    [HideInInspector] public CharacterController cc;
 
     float InputHorizontal;
     float InputForward;
@@ -19,6 +19,8 @@ public class MovementController : MonoBehaviour
     [SerializeField] float SlopeRayLength;
 
     bool isJumping = false;
+
+    [HideInInspector] public bool SettingCheckpoint = false;
     
     Vector3 MoveHorizontal;
     Vector3 MoveForward;
@@ -41,7 +43,7 @@ public class MovementController : MonoBehaviour
 
         // Check if the Character is grounded
         if (cc.isGrounded)
-        {
+        {           
             if(isJumping)
             {
                 isJumping = false;
@@ -66,7 +68,10 @@ public class MovementController : MonoBehaviour
 
         NewPos.y = VerticalVelocity;
 
-        cc.Move(NewPos * Time.deltaTime);
+        if(!SettingCheckpoint)
+        {
+            cc.Move(NewPos * Time.deltaTime);
+        }      
 
         if((InputForward != 0 || InputHorizontal != 0) && OnSlope())
         {
