@@ -29,7 +29,7 @@ public class DissolveScript : MonoBehaviour
 
     public void FlipFlopEffect()
     {
-        if (!IsDissolved && PlayerCanAffect)
+        if (!IsDissolved)
         {
             StartCoroutine(Dissolve());
         }
